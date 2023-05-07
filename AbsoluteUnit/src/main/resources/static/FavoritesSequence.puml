@@ -1,0 +1,16 @@
+@startuml
+title List of Exercises
+autonumber
+
+actor Player
+Database Exercises
+
+Administrator -> "Rest-Controller": Make API calls to retrieve exercise information
+"Rest-Controller" --> Exercises: Store information in relational database
+Exercises -> Controller: Send exercise information to front-end
+Controller -> Artist: Render list of exercises
+Artist --> Player: View beginner-friendly exercises
+
+
+
+@enduml

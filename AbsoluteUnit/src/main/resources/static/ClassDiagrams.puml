@@ -1,0 +1,109 @@
+@startuml
+skinparam classAttributeIconSize 0
+class Favorites{
+- id : Long
+- name : String
+- type : String
+- muscle : String
+- equipment : String
+- difficulty : String
++ Favorites()
++ Favorites(id : Long, name : String, type : String, muscle : String,
+     equipment : String, difficulty : String, instructions : String)
++ getId() : Long
++ setId(id : Long) : void
++ getName() : String
++ setName(name : String) : void
++ getType() : String
++ setType(type : String) : void
++ getMuscle() : String
++ setMuscle(muscle : String) : void
++ getEquipment() : String
++ setEquipment(phone : String) : void
++ getDifficulty() : String
++ setDifficulty(difficulty : String) : void
++ toString() : String
+}
+Favorites ..|> Serializable
+class ExerciseController{
+- exerciseService : ExerciseService
+- favoritesService : FavoritesService
++ ExerciseController(exerciseService : ExerciseService,
+favoritesService : FavoritesService)
++ getAllExercises() : ResponseEntity<List<Exercise>>
++ getExerciseById(id : Long) : ResponseEntity<Exercise>
++ getAllFavorites() : ResponseEntity<List<Favorites>>
++ addExerciseById(id : Long) : ResponseEntity<Favorites>
++ updateEmployee(exercise : Exercise) : ResponseEntity<Exercise>
++ deleteExercise(id : Long) : ResponseEntity<?>
++ deleteFavoriteExercise(id : Long) : ResponseEntity<?>
+}
+class AbsoluteunitApplication{
++ {static} main(args : String[]) : void
+runner(exerciseService : ExerciseService) : CommandLineRunner
++ corsFilter() : CorsFilter
+}
+class Exercise{
+- id : Long
+- name : String
+- type : String
+- muscle : String
+- equipment : String
+- difficulty : String
++ Exercise()
++ Exercise(id : Long, name : String, type : String, muscle : String,
+    equipment : String, difficulty : String, instructions : String)
++ getId() : Long
++ setId(id : Long) : void
++ getName() : String
++ setName(name : String) : void
++ getType() : String
++ setType(type : String) : void
++ getMuscle() : String
++ setMuscle(muscle : String) : void
++ getEquipment() : String
++ setEquipment(phone : String) : void
++ getDifficulty() : String
++ setDifficulty(difficulty : String) : void
++ toString() : String
+}
+Exercise ..|> Serializable
+class FavoritesService{
+- favoritesRepo : FavoritesRepo
++ FavoritesService(favoritesRepo : FavoritesRepo)
++ saveEList(favorite : List<Favorites>) : List<Favorites>
++ findAllFavorites() : List<Favorites>
++ saveFavorites(favorite : Favorites) : Favorites
++ findExerciseId(id : Long) : Favorites
++ deleteFavorites(id : Long) : void
+}
+class UserNotFoundException{
++ UserNotFoundException(alert : String)
+}
+UserNotFoundException --|> RuntimeException
+class ExerciseService{
+- exerciseRepo : ExerciseRepo
++ ExerciseService(exerciseRepo : ExerciseRepo)
++ saveEList(exercise : List<Exercise>) : List<Exercise>
++ findAllExercises() : List<Exercise>
++ saveExercise(exercise : Exercise) : Exercise
++ countRepository() : Long
++ findExerciseId(id : Long) : Exercise
++ deleteExercise(id : Long) : void
+}
+ExerciseController--"- exerciseService" ExerciseService
+ExerciseController--"- favoritesService" FavoritesService
+FavoritesService--"- favoritesRepo" FavoritesRepo
+ExerciseService--"- exerciseRepo" ExerciseRepo
+interface FavoritesRepo{
+deleteExerciseById(id : Long) : void
+findExerciseById(id : Long) : Optional<Favorites>
+}
+FavoritesRepo --|> JpaRepository
+interface ExerciseRepo{
+deleteExerciseById(id : Long) : void
+findExerciseById(id : Long) : Optional<Exercise>
+count() : long
+}
+ExerciseRepo --|> JpaRepository
+@enduml
